@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ask Rubi</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ask Rubi | B217 Classroom Assistant</title>
 
   <style>
     * {
@@ -19,6 +20,8 @@
       --cream: #fffbea;
       --white: #ffffff;
       --text: #241334;
+      --green: #27864a;
+      --red: #b3261e;
     }
 
     body {
@@ -26,40 +29,45 @@
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
       min-height: 100vh;
+
       background:
         linear-gradient(rgba(101,39,168,.08) 1px, transparent 1px),
         linear-gradient(90deg, rgba(101,39,168,.08) 1px, transparent 1px),
         linear-gradient(135deg, #fff8c9, #ffe88a);
+
       background-size: 34px 34px, 34px 34px, auto;
     }
 
     .math {
       position: fixed;
-      opacity: .16;
+      opacity: .15;
       color: var(--purple);
       font-weight: bold;
       pointer-events: none;
       z-index: 0;
+      user-select: none;
     }
 
-    .m1 { top: 7%; left: 3%; font-size: 54px; }
-    .m2 { top: 12%; right: 4%; font-size: 50px; }
-    .m3 { top: 40%; left: 1%; font-size: 60px; }
-    .m4 { top: 55%; right: 2%; font-size: 56px; }
-    .m5 { bottom: 8%; left: 4%; font-size: 50px; }
-    .m6 { bottom: 8%; right: 5%; font-size: 52px; }
+    .m1 { top: 6%; left: 2%; font-size: 55px; transform: rotate(-12deg); }
+    .m2 { top: 13%; right: 3%; font-size: 52px; transform: rotate(10deg); }
+    .m3 { top: 42%; left: 1%; font-size: 63px; }
+    .m4 { top: 53%; right: 1%; font-size: 55px; }
+    .m5 { bottom: 8%; left: 3%; font-size: 50px; }
+    .m6 { bottom: 7%; right: 4%; font-size: 55px; }
+    .m7 { top: 75%; left: 2%; font-size: 45px; }
+    .m8 { top: 32%; right: 2%; font-size: 42px; }
 
     .app {
       position: relative;
       z-index: 1;
-      width: min(1200px, 95%);
+      width: min(1250px, 96%);
       margin: auto;
-      padding: 28px 0 50px;
+      padding: 24px 0 50px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .brand {
@@ -77,6 +85,7 @@
       border-radius: 35px;
       background: white;
       position: relative;
+      box-shadow: 0 7px 0 rgba(101,39,168,.14);
     }
 
     .robot:before {
@@ -107,7 +116,7 @@
     h1 {
       margin: 0;
       color: var(--purple);
-      font-size: clamp(52px, 8vw, 88px);
+      font-size: clamp(52px, 7vw, 86px);
       line-height: .95;
       text-shadow: 4px 4px 0 var(--yellow);
     }
@@ -120,11 +129,11 @@
     }
 
     .tagline {
-      margin: 16px auto 0;
+      margin: 14px auto 0;
       width: min(650px, 92%);
       background: rgba(255,255,255,.9);
       border: 2px solid #ddc9f2;
-      padding: 12px 18px;
+      padding: 11px 18px;
       border-radius: 999px;
     }
 
@@ -132,19 +141,19 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin: 20px 0;
+      margin: 18px 0;
       flex-wrap: wrap;
     }
 
     .mode-button {
-      border: none;
       border-radius: 999px;
-      padding: 12px 20px;
+      padding: 12px 22px;
       font-weight: bold;
       cursor: pointer;
       background: white;
       color: var(--purple);
       border: 2px solid var(--purple-light);
+      font-size: 15px;
     }
 
     .mode-button.active {
@@ -153,9 +162,9 @@
     }
 
     .card {
-      background: rgba(255,255,255,.95);
+      background: rgba(255,255,255,.96);
       border-radius: 26px;
-      padding: 26px;
+      padding: 27px;
       border: 3px solid rgba(101,39,168,.12);
       box-shadow: 0 10px 26px rgba(73,36,0,.12);
     }
@@ -171,9 +180,9 @@
     }
 
     .ask-title {
-      font-size: 30px;
+      font-size: 31px;
       color: var(--purple-dark);
-      margin-bottom: 16px;
+      margin-bottom: 17px;
       font-weight: bold;
     }
 
@@ -186,7 +195,7 @@
       flex: 1;
       border-radius: 16px;
       border: 3px solid var(--purple-light);
-      padding: 16px 18px;
+      padding: 17px 18px;
       font-size: 18px;
     }
 
@@ -195,8 +204,8 @@
       background: var(--purple);
       color: white;
       border-radius: 16px;
-      min-width: 70px;
-      font-size: 25px;
+      min-width: 72px;
+      font-size: 26px;
       cursor: pointer;
     }
 
@@ -215,9 +224,9 @@
     }
 
     .quick-question {
-      min-height: 100px;
-      border-radius: 18px;
-      padding: 16px;
+      min-height: 105px;
+      border-radius: 19px;
+      padding: 17px;
       border: 2px solid #d5afea;
       cursor: pointer;
       text-align: left;
@@ -225,6 +234,11 @@
       color: var(--purple-dark);
       font-size: 16px;
       box-shadow: 0 4px 10px rgba(50,20,70,.08);
+      transition: .2s;
+    }
+
+    .quick-question:hover {
+      transform: translateY(-3px);
     }
 
     .quick-question:nth-child(odd) {
@@ -238,7 +252,7 @@
 
     .quick-question span {
       display: block;
-      font-size: 28px;
+      font-size: 29px;
       margin-bottom: 7px;
     }
 
@@ -258,15 +272,24 @@
 
     #answer {
       background: white;
-      padding: 18px;
+      padding: 19px;
       border-radius: 15px;
-      min-height: 76px;
+      min-height: 80px;
       font-size: 18px;
-      line-height: 1.5;
+      line-height: 1.55;
+    }
+
+    .answer-list {
+      margin: 8px 0 0;
+      padding-left: 27px;
+    }
+
+    .answer-list li {
+      margin: 8px 0;
     }
 
     .today-grid {
-      margin-top: 24px;
+      margin-top: 22px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
@@ -297,10 +320,21 @@
       margin-bottom: 20px;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+    .login-box {
+      max-width: 570px;
+      margin: 20px auto;
+      background: white;
+      border: 3px solid var(--purple-light);
+      border-radius: 22px;
+      padding: 26px;
+    }
+
+    .login-box h2 {
+      margin-top: 0;
+    }
+
+    .login-box p {
+      line-height: 1.5;
     }
 
     .field {
@@ -309,8 +343,8 @@
       gap: 7px;
     }
 
-    .field.full {
-      grid-column: 1 / -1;
+    .field + .field {
+      margin-top: 15px;
     }
 
     label {
@@ -329,12 +363,13 @@
     }
 
     textarea {
-      min-height: 90px;
+      min-height: 105px;
       resize: vertical;
     }
 
+    .login-button,
     .save-button {
-      margin-top: 20px;
+      margin-top: 18px;
       width: 100%;
       border: none;
       border-radius: 15px;
@@ -346,11 +381,66 @@
       cursor: pointer;
     }
 
-    #saveMessage {
-      text-align: center;
-      margin-top: 12px;
-      color: var(--purple-dark);
+    .teacher-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .signed-in {
+      font-size: 14px;
+      color: var(--green);
       font-weight: bold;
+    }
+
+    .logout-button {
+      border: 2px solid var(--purple-light);
+      background: white;
+      color: var(--purple);
+      border-radius: 999px;
+      padding: 9px 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 17px;
+    }
+
+    .form-grid .field {
+      margin-top: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    #loginMessage,
+    #saveMessage,
+    #connectionMessage {
+      margin-top: 13px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .error {
+      color: var(--red);
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    .connection {
+      text-align: center;
+      font-size: 13px;
+      margin-bottom: 12px;
+      color: var(--green);
     }
 
     footer {
@@ -390,6 +480,10 @@
       #askButton {
         padding: 12px;
       }
+
+      .math {
+        opacity: .08;
+      }
     }
   </style>
 </head>
@@ -402,12 +496,15 @@
   <div class="math m4">y = mx + b</div>
   <div class="math m5">√x</div>
   <div class="math m6">+ − × ÷</div>
+  <div class="math m7">x²</div>
+  <div class="math m8">%</div>
 
   <div class="app">
 
     <header>
       <div class="brand">
         <div class="robot"></div>
+
         <div>
           <h1>Rubi</h1>
           <div class="subtitle">YOUR B217 CLASSROOM ASSISTANT</div>
@@ -419,10 +516,21 @@
       </div>
     </header>
 
-    <div class="top-controls">
-      <button id="studentModeButton" class="mode-button active">Student Mode</button>
-      <button id="teacherModeButton" class="mode-button">Teacher Mode</button>
+    <div id="connectionMessage" class="connection">
+      Connecting Rubi...
     </div>
+
+    <div class="top-controls">
+      <button id="studentModeButton" class="mode-button active">
+        Student Mode
+      </button>
+
+      <button id="teacherModeButton" class="mode-button">
+        🔐 Teacher Mode
+      </button>
+    </div>
+
+    <!-- STUDENT MODE -->
 
     <section id="studentPanel" class="student-panel active">
 
@@ -431,16 +539,22 @@
         <div class="ask-title">✨ Ask Rubi!</div>
 
         <div class="search-row">
+
           <input
             id="questionInput"
             type="text"
             placeholder="Type your question here..."
-          />
+          >
 
-          <button id="askButton">➤</button>
+          <button id="askButton">
+            ➤
+          </button>
+
         </div>
 
-        <div class="section-title">QUICK QUESTIONS</div>
+        <div class="section-title">
+          QUICK QUESTIONS
+        </div>
 
         <div class="question-grid">
 
@@ -492,10 +606,13 @@
         </div>
 
         <div class="answer-card">
+
           <h2>🤖 Rubi's Answer</h2>
+
           <div id="answer">
             Hi! 👋 Ask me a question above and I'll help you out!
           </div>
+
         </div>
 
       </div>
@@ -504,83 +621,204 @@
 
         <div class="mini-card">
           <h3>📚 Today's Lesson</h3>
-          <p id="todayLessonDisplay">Not entered yet.</p>
+          <p id="todayLessonDisplay">Loading...</p>
         </div>
 
         <div class="mini-card">
           <h3>🎒 Materials</h3>
-          <p id="materialsDisplay">Not entered yet.</p>
+          <p id="materialsDisplay">Loading...</p>
         </div>
 
         <div class="mini-card">
           <h3>⭐ Reminder</h3>
-          <p id="reminderDisplay">Ask Rubi first!</p>
+          <p id="reminderDisplay">Loading...</p>
         </div>
 
       </div>
 
     </section>
 
+
+    <!-- TEACHER MODE -->
+
     <section id="teacherPanel" class="teacher-panel">
 
-      <div class="card">
+      <!-- LOGIN -->
 
-        <h2>🔐 Teacher Mode</h2>
+      <div id="teacherLogin" class="login-box">
+
+        <h2>🔐 Teacher Login</h2>
+
+        <p>
+          Sign in with your Rubi teacher account to update classroom information.
+        </p>
+
+        <div class="field">
+          <label for="teacherEmail">Email</label>
+          <input
+            id="teacherEmail"
+            type="email"
+            autocomplete="username"
+            placeholder="Teacher email"
+          >
+        </div>
+
+        <div class="field">
+          <label for="teacherPassword">Password</label>
+          <input
+            id="teacherPassword"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Password"
+          >
+        </div>
+
+        <button id="loginButton" class="login-button">
+          Sign In to Teacher Mode
+        </button>
+
+        <div id="loginMessage"></div>
+
+      </div>
+
+
+      <!-- TEACHER DASHBOARD -->
+
+      <div id="teacherDashboard" class="card" style="display:none;">
+
+        <div class="teacher-header">
+
+          <div>
+            <h2>🔐 Teacher Mode</h2>
+            <div id="signedInMessage" class="signed-in"></div>
+          </div>
+
+          <button id="logoutButton" class="logout-button">
+            Sign Out
+          </button>
+
+        </div>
 
         <div class="teacher-note">
-          Update Rubi's classroom information here. Click <strong>Save Rubi's Info</strong> when you're finished.
+          Update Rubi here, then click <strong>Save Rubi's Info</strong>.
+          Every device using Rubi will receive the updated information.
         </div>
 
         <div class="form-grid">
 
           <div class="field">
-            <label for="lessonInput">Today's lesson / page</label>
-            <input id="lessonInput" type="text" placeholder="Example: Module 1, Lesson 3, pages 22–25" />
+            <label for="lessonInput">
+              Today's lesson / page
+            </label>
+
+            <input
+              id="lessonInput"
+              type="text"
+              placeholder="Example: Module 1, Lesson 3, pages 22–25"
+            >
           </div>
 
           <div class="field">
-            <label for="materialsInput">Materials needed today</label>
-            <input id="materialsInput" type="text" placeholder="Example: Chromebook, notebook, pencil" />
+            <label for="materialsInput">
+              Materials needed today
+            </label>
+
+            <input
+              id="materialsInput"
+              type="text"
+              placeholder="Example: Workbook, journal, pencil"
+            >
           </div>
 
           <div class="field full">
-            <label for="turnInInput">Turn-in information</label>
-            <textarea id="turnInInput" placeholder="Example: Exit tickets go in the purple tray. Homework is submitted in Google Classroom."></textarea>
+            <label for="turnInInput">
+              Turn-in information
+            </label>
+
+            <textarea
+              id="turnInInput"
+              placeholder="Where should students turn in their work?"
+            ></textarea>
           </div>
 
           <div class="field">
-            <label for="thisWeekInput">Due this week</label>
-            <textarea id="thisWeekInput" placeholder="Example: Friday - Topic 1 Quiz"></textarea>
+            <label for="thisWeekInput">
+              Due this week — one item per line
+            </label>
+
+            <textarea
+              id="thisWeekInput"
+              placeholder="Syllabus&#10;Favorite Things List&#10;Exit Ticket"
+            ></textarea>
           </div>
 
           <div class="field">
-            <label for="nextWeekInput">Due next week</label>
-            <textarea id="nextWeekInput" placeholder="Example: Tuesday - Lesson 5 Practice"></textarea>
+            <label for="nextWeekInput">
+              Due next week — one item per line
+            </label>
+
+            <textarea
+              id="nextWeekInput"
+              placeholder="Warm Up 1.2A&#10;Lesson 2 Assignment"
+            ></textarea>
           </div>
 
           <div class="field full">
-            <label for="bathroomInput">Bathroom rule</label>
-            <textarea id="bathroomInput" placeholder="Enter your classroom bathroom procedure."></textarea>
+            <label for="bathroomInput">
+              Bathroom procedure — one step per line
+            </label>
+
+            <textarea
+              id="bathroomInput"
+              placeholder="Write your name on the bathroom list.&#10;Wait until your name is next.&#10;Ask Ms. Rubio.&#10;Sign out before leaving."
+            ></textarea>
           </div>
 
           <div class="field">
-            <label for="pencilInput">Pencil information</label>
-            <input id="pencilInput" type="text" placeholder="Example: Borrow one from the pencil station." />
+            <label for="pencilInput">
+              Pencil information
+            </label>
+
+            <input
+              id="pencilInput"
+              type="text"
+              placeholder="Example: Check the pencil parking by the windows."
+            >
           </div>
 
           <div class="field">
-            <label for="tutoringInput">Tutoring schedule</label>
-            <input id="tutoringInput" type="text" placeholder="Example: Tuesdays and Thursdays, 4:15–5:00 PM" />
+            <label for="emailInput">
+              Ms. Rubio's email
+            </label>
+
+            <input
+              id="emailInput"
+              type="text"
+              placeholder="School email"
+            >
           </div>
 
-          <div class="field">
-            <label for="emailInput">Ms. Rubio's email</label>
-            <input id="emailInput" type="text" placeholder="Enter your school email" />
+          <div class="field full">
+            <label for="tutoringInput">
+              Tutoring schedule — one option per line
+            </label>
+
+            <textarea
+              id="tutoringInput"
+              placeholder="Tuesday morning: 8:20–8:50 AM&#10;Wednesday after school: 4:15–5:00 PM"
+            ></textarea>
           </div>
 
-          <div class="field">
-            <label for="reminderInput">Today's reminder</label>
-            <input id="reminderInput" type="text" placeholder="Example: Bring your Chromebook charged." />
+          <div class="field full">
+            <label for="reminderInput">
+              Today's reminder
+            </label>
+
+            <input
+              id="reminderInput"
+              type="text"
+              placeholder="Example: Bring your Chromebook charged."
+            >
           </div>
 
         </div>
@@ -601,9 +839,74 @@
 
   </div>
 
-  <script>
 
-    const defaultInfo = {
+  <script type="module">
+
+    /* -----------------------------------------
+       FIREBASE
+    ------------------------------------------ */
+
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      doc,
+      onSnapshot,
+      updateDoc
+    }
+      from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    }
+      from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyACe3LsUVh0qAE7JanGFGEZ0avvGeg rPro".replace(" ", ""),
+
+      authDomain:
+        "askrubi-f2eba.firebaseapp.com",
+
+      projectId:
+        "askrubi-f2eba",
+
+      storageBucket:
+        "askrubi-f2eba.firebasestorage.app",
+
+      messagingSenderId:
+        "585974208460",
+
+      appId:
+        "1:585974208460:web:8ce45cdffeff39cb682f69",
+
+      measurementId:
+        "G-74YCY5V32P"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const db = getFirestore(app);
+
+    const auth = getAuth(app);
+
+    const classroomRef =
+      doc(db, "classroom", "current");
+
+
+    /* -----------------------------------------
+       RUBI'S CURRENT INFO
+    ------------------------------------------ */
+
+    let classroomInfo = {
+
       lesson: "",
       materials: "",
       turnIn: "",
@@ -613,130 +916,527 @@
       pencil: "",
       tutoring: "",
       email: "",
-      reminder: "Ask Rubi first!"
+      reminder: ""
+
     };
 
-    let classroomInfo =
-      JSON.parse(localStorage.getItem("rubiClassroomInfo")) || defaultInfo;
 
-    const studentModeButton = document.getElementById("studentModeButton");
-    const teacherModeButton = document.getElementById("teacherModeButton");
+    /* -----------------------------------------
+       ELEMENTS
+    ------------------------------------------ */
 
-    const studentPanel = document.getElementById("studentPanel");
-    const teacherPanel = document.getElementById("teacherPanel");
+    const studentModeButton =
+      document.getElementById("studentModeButton");
 
-    const lessonInput = document.getElementById("lessonInput");
-    const materialsInput = document.getElementById("materialsInput");
-    const turnInInput = document.getElementById("turnInInput");
-    const thisWeekInput = document.getElementById("thisWeekInput");
-    const nextWeekInput = document.getElementById("nextWeekInput");
-    const bathroomInput = document.getElementById("bathroomInput");
-    const pencilInput = document.getElementById("pencilInput");
-    const tutoringInput = document.getElementById("tutoringInput");
-    const emailInput = document.getElementById("emailInput");
-    const reminderInput = document.getElementById("reminderInput");
+    const teacherModeButton =
+      document.getElementById("teacherModeButton");
 
-    const saveButton = document.getElementById("saveButton");
-    const saveMessage = document.getElementById("saveMessage");
+    const studentPanel =
+      document.getElementById("studentPanel");
 
-    const questionInput = document.getElementById("questionInput");
-    const askButton = document.getElementById("askButton");
-    const answer = document.getElementById("answer");
+    const teacherPanel =
+      document.getElementById("teacherPanel");
 
-    const todayLessonDisplay = document.getElementById("todayLessonDisplay");
-    const materialsDisplay = document.getElementById("materialsDisplay");
-    const reminderDisplay = document.getElementById("reminderDisplay");
+    const teacherLogin =
+      document.getElementById("teacherLogin");
 
-    function loadTeacherFields() {
-      lessonInput.value = classroomInfo.lesson || "";
-      materialsInput.value = classroomInfo.materials || "";
-      turnInInput.value = classroomInfo.turnIn || "";
-      thisWeekInput.value = classroomInfo.thisWeek || "";
-      nextWeekInput.value = classroomInfo.nextWeek || "";
-      bathroomInput.value = classroomInfo.bathroom || "";
-      pencilInput.value = classroomInfo.pencil || "";
-      tutoringInput.value = classroomInfo.tutoring || "";
-      emailInput.value = classroomInfo.email || "";
-      reminderInput.value = classroomInfo.reminder || "";
-    }
+    const teacherDashboard =
+      document.getElementById("teacherDashboard");
+
+    const teacherEmail =
+      document.getElementById("teacherEmail");
+
+    const teacherPassword =
+      document.getElementById("teacherPassword");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const signedInMessage =
+      document.getElementById("signedInMessage");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const saveMessage =
+      document.getElementById("saveMessage");
+
+    const connectionMessage =
+      document.getElementById("connectionMessage");
+
+    const questionInput =
+      document.getElementById("questionInput");
+
+    const askButton =
+      document.getElementById("askButton");
+
+    const answer =
+      document.getElementById("answer");
+
+
+    const lessonInput =
+      document.getElementById("lessonInput");
+
+    const materialsInput =
+      document.getElementById("materialsInput");
+
+    const turnInInput =
+      document.getElementById("turnInInput");
+
+    const thisWeekInput =
+      document.getElementById("thisWeekInput");
+
+    const nextWeekInput =
+      document.getElementById("nextWeekInput");
+
+    const bathroomInput =
+      document.getElementById("bathroomInput");
+
+    const pencilInput =
+      document.getElementById("pencilInput");
+
+    const tutoringInput =
+      document.getElementById("tutoringInput");
+
+    const emailInput =
+      document.getElementById("emailInput");
+
+    const reminderInput =
+      document.getElementById("reminderInput");
+
+
+    /* -----------------------------------------
+       FIRESTORE LIVE SYNC
+    ------------------------------------------ */
+
+    onSnapshot(
+
+      classroomRef,
+
+      function(snapshot) {
+
+        if (snapshot.exists()) {
+
+          classroomInfo = snapshot.data();
+
+          updateStudentDisplay();
+
+          loadTeacherFields();
+
+          connectionMessage.textContent =
+            "🟢 Rubi is synced and ready.";
+
+          connectionMessage.className =
+            "connection success";
+
+        } else {
+
+          connectionMessage.textContent =
+            "Rubi's classroom information could not be found.";
+
+          connectionMessage.className =
+            "connection error";
+        }
+
+      },
+
+      function(error) {
+
+        console.error(error);
+
+        connectionMessage.textContent =
+          "⚠️ Rubi could not connect to the classroom database.";
+
+        connectionMessage.className =
+          "connection error";
+      }
+
+    );
+
+
+    /* -----------------------------------------
+       STUDENT DISPLAY
+    ------------------------------------------ */
 
     function updateStudentDisplay() {
-      todayLessonDisplay.textContent =
-        classroomInfo.lesson || "Today's lesson has not been entered yet.";
 
-      materialsDisplay.textContent =
-        classroomInfo.materials || "Today's materials have not been entered yet.";
+      document.getElementById("todayLessonDisplay")
+        .textContent =
+        classroomInfo.lesson ||
+        "Today's lesson has not been entered yet.";
 
-      reminderDisplay.textContent =
-        classroomInfo.reminder || "Ask Rubi first!";
+      document.getElementById("materialsDisplay")
+        .textContent =
+        classroomInfo.materials ||
+        "Today's materials have not been entered yet.";
+
+      document.getElementById("reminderDisplay")
+        .textContent =
+        classroomInfo.reminder ||
+        "Ask Rubi first!";
+
     }
 
+
+    /* -----------------------------------------
+       MODE BUTTONS
+    ------------------------------------------ */
+
     function switchToStudentMode() {
+
       studentPanel.classList.add("active");
+
       teacherPanel.classList.remove("active");
 
       studentModeButton.classList.add("active");
+
       teacherModeButton.classList.remove("active");
 
-      updateStudentDisplay();
     }
 
+
     function switchToTeacherMode() {
+
       teacherPanel.classList.add("active");
+
       studentPanel.classList.remove("active");
 
       teacherModeButton.classList.add("active");
+
       studentModeButton.classList.remove("active");
 
-      loadTeacherFields();
     }
 
-    studentModeButton.addEventListener("click", switchToStudentMode);
-    teacherModeButton.addEventListener("click", switchToTeacherMode);
 
-    saveButton.addEventListener("click", function () {
+    studentModeButton.addEventListener(
+      "click",
+      switchToStudentMode
+    );
 
-      classroomInfo = {
-        lesson: lessonInput.value.trim(),
-        materials: materialsInput.value.trim(),
-        turnIn: turnInInput.value.trim(),
-        thisWeek: thisWeekInput.value.trim(),
-        nextWeek: nextWeekInput.value.trim(),
-        bathroom: bathroomInput.value.trim(),
-        pencil: pencilInput.value.trim(),
-        tutoring: tutoringInput.value.trim(),
-        email: emailInput.value.trim(),
-        reminder: reminderInput.value.trim()
-      };
 
-      localStorage.setItem(
-        "rubiClassroomInfo",
-        JSON.stringify(classroomInfo)
-      );
+    teacherModeButton.addEventListener(
+      "click",
+      switchToTeacherMode
+    );
 
-      saveMessage.textContent =
-        "Saved! 💜 Rubi's information has been updated.";
 
-      updateStudentDisplay();
+    /* -----------------------------------------
+       AUTHENTICATION
+    ------------------------------------------ */
 
-      setTimeout(function () {
-        saveMessage.textContent = "";
-      }, 3500);
+    loginButton.addEventListener(
+      "click",
+      async function() {
 
-    });
+        loginMessage.textContent =
+          "Signing in...";
 
-    function getAnswer(question) {
+        loginMessage.className = "";
 
-      const q = question.toLowerCase().trim();
+        try {
+
+          await signInWithEmailAndPassword(
+            auth,
+            teacherEmail.value.trim(),
+            teacherPassword.value
+          );
+
+          teacherPassword.value = "";
+
+          loginMessage.textContent = "";
+
+        }
+
+        catch(error) {
+
+          console.error(error);
+
+          loginMessage.textContent =
+            "That email or password didn't work.";
+
+          loginMessage.className =
+            "error";
+        }
+
+      }
+    );
+
+
+    teacherPassword.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          loginButton.click();
+        }
+
+      }
+    );
+
+
+    logoutButton.addEventListener(
+      "click",
+      async function() {
+
+        await signOut(auth);
+
+        switchToStudentMode();
+
+      }
+    );
+
+
+    onAuthStateChanged(
+      auth,
+      function(user) {
+
+        if (user) {
+
+          teacherLogin.style.display =
+            "none";
+
+          teacherDashboard.style.display =
+            "block";
+
+          signedInMessage.textContent =
+            "✓ Signed in as " + user.email;
+
+          loadTeacherFields();
+
+        }
+
+        else {
+
+          teacherDashboard.style.display =
+            "none";
+
+          teacherLogin.style.display =
+            "block";
+
+          signedInMessage.textContent = "";
+
+        }
+
+      }
+    );
+
+
+    /* -----------------------------------------
+       LOAD TEACHER FIELDS
+    ------------------------------------------ */
+
+    function loadTeacherFields() {
+
+      lessonInput.value =
+        classroomInfo.lesson || "";
+
+      materialsInput.value =
+        classroomInfo.materials || "";
+
+      turnInInput.value =
+        classroomInfo.turnIn || "";
+
+      thisWeekInput.value =
+        classroomInfo.thisWeek || "";
+
+      nextWeekInput.value =
+        classroomInfo.nextWeek || "";
+
+      bathroomInput.value =
+        classroomInfo.bathroom || "";
+
+      pencilInput.value =
+        classroomInfo.pencil || "";
+
+      tutoringInput.value =
+        classroomInfo.tutoring || "";
+
+      emailInput.value =
+        classroomInfo.email || "";
+
+      reminderInput.value =
+        classroomInfo.reminder || "";
+
+    }
+
+
+    /* -----------------------------------------
+       SAVE TO FIRESTORE
+    ------------------------------------------ */
+
+    saveButton.addEventListener(
+      "click",
+      async function() {
+
+        saveMessage.textContent =
+          "Saving...";
+
+        saveMessage.className = "";
+
+        const updatedInfo = {
+
+          lesson:
+            lessonInput.value.trim(),
+
+          materials:
+            materialsInput.value.trim(),
+
+          turnIn:
+            turnInInput.value.trim(),
+
+          thisWeek:
+            thisWeekInput.value.trim(),
+
+          nextWeek:
+            nextWeekInput.value.trim(),
+
+          bathroom:
+            bathroomInput.value.trim(),
+
+          pencil:
+            pencilInput.value.trim(),
+
+          tutoring:
+            tutoringInput.value.trim(),
+
+          email:
+            emailInput.value.trim(),
+
+          reminder:
+            reminderInput.value.trim()
+
+        };
+
+
+        try {
+
+          await updateDoc(
+            classroomRef,
+            updatedInfo
+          );
+
+          saveMessage.textContent =
+            "✓ Saved! Rubi has been updated on every device. 💜";
+
+          saveMessage.className =
+            "success";
+
+        }
+
+        catch(error) {
+
+          console.error(error);
+
+          saveMessage.textContent =
+            "Rubi couldn't save that update. Make sure you're signed into the correct teacher account.";
+
+          saveMessage.className =
+            "error";
+
+        }
+
+      }
+    );
+
+
+    /* -----------------------------------------
+       FORMATTED LIST ANSWERS
+    ------------------------------------------ */
+
+    function showPlainAnswer(text) {
+
+      answer.replaceChildren();
+
+      const p = document.createElement("div");
+
+      p.textContent = text;
+
+      answer.appendChild(p);
+
+    }
+
+
+    function showListAnswer(title, text) {
+
+      answer.replaceChildren();
+
+      const heading =
+        document.createElement("strong");
+
+      heading.textContent = title;
+
+      answer.appendChild(heading);
+
+
+      const items = text
+        .split("\n")
+        .map(item => item.trim())
+        .filter(Boolean);
+
+
+      if (items.length === 0) {
+
+        const p =
+          document.createElement("p");
+
+        p.textContent =
+          "Nothing has been entered yet.";
+
+        answer.appendChild(p);
+
+        return;
+      }
+
+
+      const ul =
+        document.createElement("ul");
+
+      ul.className =
+        "answer-list";
+
+
+      items.forEach(function(item) {
+
+        const li =
+          document.createElement("li");
+
+        li.textContent = item;
+
+        ul.appendChild(li);
+
+      });
+
+
+      answer.appendChild(ul);
+
+    }
+
+
+    /* -----------------------------------------
+       RUBI'S QUESTION LOGIC
+    ------------------------------------------ */
+
+    function getAnswerType(question) {
+
+      const q =
+        question.toLowerCase().trim();
+
 
       if (
         q.includes("page") ||
         q.includes("lesson") ||
-        q.includes("where are we")
+        q.includes("where are we") ||
+        q.includes("doing today")
       ) {
-        return classroomInfo.lesson ||
-          "Today's lesson or page has not been entered yet.";
+        return "lesson";
       }
+
 
       if (
         q.includes("need today") ||
@@ -744,116 +1444,247 @@
         q.includes("supplies") ||
         q.includes("what do we need")
       ) {
-        return classroomInfo.materials ||
-          "Today's materials have not been entered yet.";
+        return "materials";
       }
+
 
       if (
         q.includes("bathroom") ||
         q.includes("restroom") ||
         q.includes("pee")
       ) {
-        return classroomInfo.bathroom ||
-          "The bathroom procedure has not been entered yet. Please ask Ms. Rubio.";
+        return "bathroom";
       }
+
 
       if (
         q.includes("turn") ||
         q.includes("submit") ||
         q.includes("hand in")
       ) {
-        return classroomInfo.turnIn ||
-          "Turn-in information has not been entered yet.";
+        return "turnIn";
       }
 
+
       if (
-        q.includes("next week")
+        q.includes("next week") ||
+        q.includes("due next")
       ) {
-        return classroomInfo.nextWeek ||
-          "Nothing has been entered for next week yet.";
+        return "nextWeek";
       }
+
 
       if (
         q.includes("this week") ||
+        q.includes("due this") ||
         q.includes("what's due") ||
         q.includes("whats due")
       ) {
-        return classroomInfo.thisWeek ||
-          "Nothing has been entered for this week yet.";
+        return "thisWeek";
       }
+
 
       if (
         q.includes("pencil")
       ) {
-        return classroomInfo.pencil ||
-          "Pencil information has not been entered yet.";
+        return "pencil";
       }
+
 
       if (
         q.includes("tutoring") ||
         q.includes("tutorial") ||
         q.includes("extra help")
       ) {
-        return classroomInfo.tutoring ||
-          "Tutoring information has not been entered yet.";
+        return "tutoring";
       }
+
 
       if (
         q.includes("email") ||
         q.includes("contact ms") ||
         q.includes("contact rubio")
       ) {
-        return classroomInfo.email ||
-          "Ms. Rubio's email has not been entered yet.";
+        return "email";
       }
 
-      return "Hmm... 🤔 I don't have that information. Please ask Ms. Rubio.";
+
+      return "unknown";
 
     }
+
 
     function askRubi(question) {
 
       if (!question.trim()) {
-        answer.textContent = "Type a question first! 💜";
+
+        showPlainAnswer(
+          "Type a question first! 💜"
+        );
+
         return;
       }
 
-      answer.textContent = getAnswer(question);
+
+      const type =
+        getAnswerType(question);
+
+
+      switch(type) {
+
+        case "lesson":
+
+          showPlainAnswer(
+            classroomInfo.lesson ||
+            "Today's lesson has not been entered yet."
+          );
+
+          break;
+
+
+        case "materials":
+
+          showPlainAnswer(
+            classroomInfo.materials ||
+            "Today's materials have not been entered yet."
+          );
+
+          break;
+
+
+        case "turnIn":
+
+          showPlainAnswer(
+            classroomInfo.turnIn ||
+            "Turn-in information has not been entered yet."
+          );
+
+          break;
+
+
+        case "pencil":
+
+          showPlainAnswer(
+            classroomInfo.pencil ||
+            "Pencil information has not been entered yet."
+          );
+
+          break;
+
+
+        case "email":
+
+          showPlainAnswer(
+            classroomInfo.email ||
+            "Ms. Rubio's email has not been entered yet."
+          );
+
+          break;
+
+
+        case "thisWeek":
+
+          showListAnswer(
+            "📅 Due This Week",
+            classroomInfo.thisWeek || ""
+          );
+
+          break;
+
+
+        case "nextWeek":
+
+          showListAnswer(
+            "🗓️ Due Next Week",
+            classroomInfo.nextWeek || ""
+          );
+
+          break;
+
+
+        case "bathroom":
+
+          showListAnswer(
+            "🚻 Bathroom Procedure",
+            classroomInfo.bathroom || ""
+          );
+
+          break;
+
+
+        case "tutoring":
+
+          showListAnswer(
+            "🕓 Tutoring Schedule",
+            classroomInfo.tutoring || ""
+          );
+
+          break;
+
+
+        default:
+
+          showPlainAnswer(
+            "Hmm... 🤔 I don't have that information. Please ask Ms. Rubio."
+          );
+
+      }
+
     }
 
-    askButton.addEventListener("click", function () {
-      askRubi(questionInput.value);
-    });
 
-    questionInput.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        askRubi(questionInput.value);
+    /* -----------------------------------------
+       QUESTION BUTTONS
+    ------------------------------------------ */
+
+    askButton.addEventListener(
+      "click",
+      function() {
+
+        askRubi(
+          questionInput.value
+        );
+
       }
-    });
+    );
 
-    document.querySelectorAll(".quick-question")
+
+    questionInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          askRubi(
+            questionInput.value
+          );
+
+        }
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(".quick-question")
       .forEach(function(button) {
 
-        button.addEventListener("click", function() {
+        button.addEventListener(
+          "click",
+          function() {
 
-          const question = button.dataset.question;
+            const question =
+              button.dataset.question;
 
-          questionInput.value = question;
+            questionInput.value =
+              question;
 
-          askRubi(question);
+            askRubi(question);
 
-          document.querySelector(".answer-card")
-            .scrollIntoView({
-              behavior: "smooth",
-              block: "center"
-            });
-
-        });
+          }
+        );
 
       });
-
-    loadTeacherFields();
-    updateStudentDisplay();
 
   </script>
 
