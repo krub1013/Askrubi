@@ -1,172 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Ask Rubi | B217 Classroom Assistant</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask Rubi</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     :root {
       --purple: #6527a8;
-      --purple-dark: #461677;
+      --purple-dark: #4a197e;
       --purple-light: #ead7ff;
       --yellow: #ffd84d;
-      --yellow-light: #fff3ad;
-      --cream: #fffaf0;
+      --yellow-soft: #fff3ad;
+      --cream: #fffbea;
       --white: #ffffff;
       --text: #241334;
     }
 
     body {
-      font-family: "Trebuchet MS", Arial, sans-serif;
-      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
-
+      min-height: 100vh;
       background:
-        linear-gradient(rgba(101,39,168,.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(101,39,168,.07) 1px, transparent 1px),
-        linear-gradient(135deg, #fff8c9, #ffe98c);
-
-      background-size: 35px 35px, 35px 35px, auto;
-
-      overflow-x: hidden;
+        linear-gradient(rgba(101,39,168,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(101,39,168,.08) 1px, transparent 1px),
+        linear-gradient(135deg, #fff8c9, #ffe88a);
+      background-size: 34px 34px, 34px 34px, auto;
     }
 
-    /* ---------------------------
-       MATH BACKGROUND DECORATIONS
-    ---------------------------- */
-
-    .math-doodle {
+    .math {
       position: fixed;
-      z-index: 0;
-      opacity: 0.22;
+      opacity: .16;
       color: var(--purple);
       font-weight: bold;
       pointer-events: none;
-      user-select: none;
+      z-index: 0;
     }
 
-    .d1 { top: 4%; left: 3%; font-size: 60px; transform: rotate(-15deg); }
-    .d2 { top: 15%; right: 3%; font-size: 55px; transform: rotate(12deg); }
-    .d3 { top: 42%; left: 2%; font-size: 70px; }
-    .d4 { top: 61%; right: 2%; font-size: 60px; transform: rotate(-9deg); }
-    .d5 { bottom: 4%; left: 5%; font-size: 52px; }
-    .d6 { bottom: 7%; right: 4%; font-size: 60px; }
-    .d7 { top: 30%; right: 1%; font-size: 48px; }
-    .d8 { top: 75%; left: 1%; font-size: 45px; }
+    .m1 { top: 7%; left: 3%; font-size: 54px; }
+    .m2 { top: 12%; right: 4%; font-size: 50px; }
+    .m3 { top: 40%; left: 1%; font-size: 60px; }
+    .m4 { top: 55%; right: 2%; font-size: 56px; }
+    .m5 { bottom: 8%; left: 4%; font-size: 50px; }
+    .m6 { bottom: 8%; right: 5%; font-size: 52px; }
 
-    /* ---------------------------
-               HEADER
-    ---------------------------- */
-
-    .page {
+    .app {
       position: relative;
-      z-index: 2;
-      width: min(1100px, 94%);
+      z-index: 1;
+      width: min(1200px, 95%);
       margin: auto;
-      padding: 35px 0 50px;
+      padding: 28px 0 50px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 22px;
     }
 
-    .logo-row {
+    .brand {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
     .robot {
-      width: 105px;
-      height: 105px;
-      background: white;
+      width: 92px;
+      height: 92px;
       border: 6px solid var(--purple);
-      border-radius: 40px;
+      border-radius: 35px;
+      background: white;
       position: relative;
-      box-shadow: 0 8px 0 rgba(101,39,168,.15);
     }
 
-    .robot::before {
+    .robot:before {
       content: "";
-      position: absolute;
-      width: 10px;
-      height: 25px;
+      width: 8px;
+      height: 22px;
       background: var(--purple);
-      top: -27px;
-      left: 42px;
+      position: absolute;
+      top: -24px;
+      left: 36px;
     }
 
-    .robot::after {
+    .robot:after {
       content: "♥";
       position: absolute;
-      color: var(--yellow);
+      width: 62px;
+      height: 48px;
+      left: 9px;
+      top: 17px;
+      border-radius: 20px;
       background: var(--purple);
-      width: 70px;
-      height: 55px;
-      border-radius: 25px;
-      left: 11px;
-      top: 22px;
+      color: var(--yellow);
       display: grid;
       place-items: center;
-      font-size: 26px;
+      font-size: 24px;
     }
 
     h1 {
-      font-size: clamp(55px, 8vw, 95px);
+      margin: 0;
       color: var(--purple);
-      text-shadow:
-        4px 4px 0 var(--yellow),
-        7px 7px 0 rgba(101,39,168,.12);
-      letter-spacing: -4px;
-      line-height: 1;
+      font-size: clamp(52px, 8vw, 88px);
+      line-height: .95;
+      text-shadow: 4px 4px 0 var(--yellow);
     }
 
     .subtitle {
-      margin-top: 10px;
-      font-size: clamp(16px, 2.5vw, 23px);
       letter-spacing: 4px;
-      text-transform: uppercase;
       font-weight: bold;
+      margin-top: 8px;
+      font-size: 17px;
     }
 
     .tagline {
-      margin: 18px auto 0;
-      background: rgba(255,255,255,.8);
-      border: 2px solid rgba(101,39,168,.2);
-      padding: 12px 24px;
-      border-radius: 50px;
-      max-width: 600px;
-      font-size: 18px;
+      margin: 16px auto 0;
+      width: min(650px, 92%);
+      background: rgba(255,255,255,.9);
+      border: 2px solid #ddc9f2;
+      padding: 12px 18px;
+      border-radius: 999px;
     }
 
-    /* ---------------------------
-            ASK RUBI BOX
-    ---------------------------- */
+    .top-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
 
-    .ask-card {
-      background: rgba(255,255,255,.94);
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 12px 30px rgba(78, 38, 0, .12);
+    .mode-button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: var(--purple);
+      border: 2px solid var(--purple-light);
+    }
+
+    .mode-button.active {
+      background: var(--purple);
+      color: white;
+    }
+
+    .card {
+      background: rgba(255,255,255,.95);
+      border-radius: 26px;
+      padding: 26px;
       border: 3px solid rgba(101,39,168,.12);
-      margin-bottom: 28px;
+      box-shadow: 0 10px 26px rgba(73,36,0,.12);
+    }
+
+    .student-panel,
+    .teacher-panel {
+      display: none;
+    }
+
+    .student-panel.active,
+    .teacher-panel.active {
+      display: block;
     }
 
     .ask-title {
-      font-size: 33px;
+      font-size: 30px;
       color: var(--purple-dark);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       font-weight: bold;
     }
 
@@ -177,185 +184,202 @@
 
     #questionInput {
       flex: 1;
-      padding: 18px 20px;
-      border-radius: 18px;
+      border-radius: 16px;
       border: 3px solid var(--purple-light);
+      padding: 16px 18px;
       font-size: 18px;
-      outline: none;
-      transition: .2s;
-    }
-
-    #questionInput:focus {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 4px rgba(101,39,168,.1);
     }
 
     #askButton {
       border: none;
       background: var(--purple);
       color: white;
+      border-radius: 16px;
       min-width: 70px;
-      padding: 0 20px;
-      border-radius: 18px;
-      font-size: 27px;
+      font-size: 25px;
       cursor: pointer;
-      transition: .2s;
     }
 
-    #askButton:hover {
-      background: var(--purple-dark);
-      transform: translateY(-2px);
-    }
-
-    /* ---------------------------
-           QUICK QUESTIONS
-    ---------------------------- */
-
-    .section-label {
+    .section-title {
       text-align: center;
+      letter-spacing: 4px;
       color: var(--purple-dark);
-      letter-spacing: 5px;
       font-weight: bold;
-      font-size: 17px;
-      margin: 30px 0 18px;
+      margin: 28px 0 16px;
     }
 
     .question-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      gap: 14px;
     }
 
     .quick-question {
-      border: none;
-      border-radius: 20px;
-      min-height: 105px;
-      padding: 18px;
-      text-align: left;
+      min-height: 100px;
+      border-radius: 18px;
+      padding: 16px;
+      border: 2px solid #d5afea;
       cursor: pointer;
-      font-size: 17px;
+      text-align: left;
       font-weight: bold;
       color: var(--purple-dark);
-      transition: .2s;
-      box-shadow: 0 5px 12px rgba(59,20,97,.10);
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(50,20,70,.08);
     }
 
     .quick-question:nth-child(odd) {
-      background: var(--yellow-light);
-      border: 2px solid #f7ca25;
+      background: var(--yellow-soft);
+      border-color: #f0c315;
     }
 
     .quick-question:nth-child(even) {
       background: var(--purple-light);
-      border: 2px solid #d0a9f3;
     }
 
-    .quick-question:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 18px rgba(59,20,97,.18);
-    }
-
-    .icon {
+    .quick-question span {
       display: block;
-      font-size: 30px;
-      margin-bottom: 8px;
+      font-size: 28px;
+      margin-bottom: 7px;
     }
-
-    /* ---------------------------
-           RUBI ANSWER BOX
-    ---------------------------- */
 
     .answer-card {
-      margin-top: 28px;
-      background: linear-gradient(135deg, #f2e5ff, white);
+      margin-top: 24px;
+      background: linear-gradient(135deg, #f3e7ff, white);
       border: 3px solid var(--purple-light);
-      border-radius: 25px;
-      padding: 25px;
-      min-height: 150px;
+      border-radius: 22px;
+      padding: 22px;
     }
 
-    .answer-heading {
+    .answer-card h2 {
+      margin-top: 0;
       color: var(--purple);
-      font-size: 25px;
-      font-weight: bold;
-      margin-bottom: 12px;
+      font-size: 24px;
     }
 
     #answer {
       background: white;
-      border-radius: 17px;
-      padding: 20px;
-      font-size: 19px;
-      line-height: 1.6;
-      min-height: 80px;
-      border: 2px solid #eee1fa;
+      padding: 18px;
+      border-radius: 15px;
+      min-height: 76px;
+      font-size: 18px;
+      line-height: 1.5;
     }
 
-    /* ---------------------------
-          BOTTOM INFORMATION
-    ---------------------------- */
-
-    .info-grid {
+    .today-grid {
+      margin-top: 24px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 28px;
+      gap: 16px;
     }
 
-    .info-card {
-      background: rgba(255,255,255,.93);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 8px 18px rgba(80,50,0,.10);
-    }
-
-    .info-card h3 {
-      color: var(--purple);
-      margin-bottom: 14px;
-      font-size: 21px;
-    }
-
-    .info-card ul {
-      padding-left: 22px;
-      line-height: 1.8;
-    }
-
-    .reminder {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 27px;
+    .mini-card {
       background: white;
       border-radius: 18px;
-      padding: 17px;
-      border: 3px dashed var(--purple-light);
+      padding: 18px;
+      border: 2px solid #eee0f7;
+    }
+
+    .mini-card h3 {
+      color: var(--purple);
+      margin-top: 0;
+    }
+
+    .teacher-panel h2 {
+      color: var(--purple);
+      margin-top: 0;
+    }
+
+    .teacher-note {
+      background: var(--yellow-soft);
+      border: 2px solid #f0c315;
+      padding: 14px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: bold;
+      color: var(--purple-dark);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 2px solid var(--purple-light);
+      border-radius: 13px;
+      padding: 12px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .save-button {
+      margin-top: 20px;
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      padding: 15px;
+      background: var(--purple);
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #saveMessage {
+      text-align: center;
+      margin-top: 12px;
+      color: var(--purple-dark);
+      font-weight: bold;
     }
 
     footer {
-      margin-top: 30px;
+      text-align: center;
+      margin-top: 25px;
+      padding: 17px;
+      border-radius: 16px;
       background: var(--purple);
       color: white;
-      padding: 18px;
-      text-align: center;
-      border-radius: 18px;
-      font-size: 16px;
     }
 
-    /* ---------------------------
-              MOBILE
-    ---------------------------- */
-
-    @media (max-width: 800px) {
-      .question-grid {
+    @media (max-width: 850px) {
+      .question-grid,
+      .today-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .info-grid {
+      .form-grid {
         grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
       }
     }
 
-    @media (max-width: 520px) {
-      .question-grid {
+    @media (max-width: 560px) {
+      .question-grid,
+      .today-grid {
         grid-template-columns: 1fr;
       }
 
@@ -364,11 +388,7 @@
       }
 
       #askButton {
-        padding: 13px;
-      }
-
-      .math-doodle {
-        opacity: .10;
+        padding: 12px;
       }
     }
   </style>
@@ -376,30 +396,22 @@
 
 <body>
 
-  <!-- Decorative math background -->
-  <div class="math-doodle d1">📏</div>
-  <div class="math-doodle d2">🧮</div>
-  <div class="math-doodle d3">π</div>
-  <div class="math-doodle d4">x²</div>
-  <div class="math-doodle d5">√x</div>
-  <div class="math-doodle d6">➗</div>
-  <div class="math-doodle d7">y = mx + b</div>
-  <div class="math-doodle d8">+ − × ÷</div>
+  <div class="math m1">📏</div>
+  <div class="math m2">🧮</div>
+  <div class="math m3">π</div>
+  <div class="math m4">y = mx + b</div>
+  <div class="math m5">√x</div>
+  <div class="math m6">+ − × ÷</div>
 
-  <div class="page">
+  <div class="app">
 
     <header>
-      <div class="logo-row">
-
+      <div class="brand">
         <div class="robot"></div>
-
         <div>
           <h1>Rubi</h1>
-          <div class="subtitle">
-            Your B217 Classroom Assistant
-          </div>
+          <div class="subtitle">YOUR B217 CLASSROOM ASSISTANT</div>
         </div>
-
       </div>
 
       <div class="tagline">
@@ -407,365 +419,430 @@
       </div>
     </header>
 
+    <div class="top-controls">
+      <button id="studentModeButton" class="mode-button active">Student Mode</button>
+      <button id="teacherModeButton" class="mode-button">Teacher Mode</button>
+    </div>
 
-    <main>
+    <section id="studentPanel" class="student-panel active">
 
-      <section class="ask-card">
+      <div class="card">
 
-        <div class="ask-title">
-          ✨ Ask Rubi!
-        </div>
+        <div class="ask-title">✨ Ask Rubi!</div>
 
         <div class="search-row">
-
           <input
             id="questionInput"
             type="text"
             placeholder="Type your question here..."
-          >
+          />
 
-          <button id="askButton">
-            ➤
-          </button>
-
+          <button id="askButton">➤</button>
         </div>
 
-
-        <div class="section-label">
-          QUICK QUESTIONS
-        </div>
-
+        <div class="section-title">QUICK QUESTIONS</div>
 
         <div class="question-grid">
 
           <button class="quick-question" data-question="What page are we on?">
-            <span class="icon">📖</span>
+            <span>📖</span>
             What page are we on?
           </button>
 
           <button class="quick-question" data-question="What do we need today?">
-            <span class="icon">🎒</span>
+            <span>🎒</span>
             What do we need today?
           </button>
 
           <button class="quick-question" data-question="What is due this week?">
-            <span class="icon">📅</span>
+            <span>📅</span>
             What's due this week?
           </button>
 
           <button class="quick-question" data-question="What is due next week?">
-            <span class="icon">🗓️</span>
+            <span>🗓️</span>
             What's due next week?
           </button>
 
           <button class="quick-question" data-question="Where do I turn this in?">
-            <span class="icon">📥</span>
+            <span>📥</span>
             Where do I turn this in?
           </button>
 
           <button class="quick-question" data-question="Can I go to the bathroom?">
-            <span class="icon">🚻</span>
+            <span>🚻</span>
             Can I go to the bathroom?
           </button>
 
           <button class="quick-question" data-question="Do you have a pencil?">
-            <span class="icon">✏️</span>
+            <span>✏️</span>
             I need a pencil
           </button>
 
           <button class="quick-question" data-question="When is tutoring?">
-            <span class="icon">🕓</span>
+            <span>🕓</span>
             When is tutoring?
           </button>
 
           <button class="quick-question" data-question="How do I email Ms. Rubio?">
-            <span class="icon">✉️</span>
+            <span>✉️</span>
             How do I email Ms. Rubio?
           </button>
 
         </div>
 
-
         <div class="answer-card">
-
-          <div class="answer-heading">
-            🤖 Rubi's Answer
-          </div>
-
+          <h2>🤖 Rubi's Answer</h2>
           <div id="answer">
             Hi! 👋 Ask me a question above and I'll help you out!
+          </div>
+        </div>
+
+      </div>
+
+      <div class="today-grid">
+
+        <div class="mini-card">
+          <h3>📚 Today's Lesson</h3>
+          <p id="todayLessonDisplay">Not entered yet.</p>
+        </div>
+
+        <div class="mini-card">
+          <h3>🎒 Materials</h3>
+          <p id="materialsDisplay">Not entered yet.</p>
+        </div>
+
+        <div class="mini-card">
+          <h3>⭐ Reminder</h3>
+          <p id="reminderDisplay">Ask Rubi first!</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="teacherPanel" class="teacher-panel">
+
+      <div class="card">
+
+        <h2>🔐 Teacher Mode</h2>
+
+        <div class="teacher-note">
+          Update Rubi's classroom information here. Click <strong>Save Rubi's Info</strong> when you're finished.
+        </div>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="lessonInput">Today's lesson / page</label>
+            <input id="lessonInput" type="text" placeholder="Example: Module 1, Lesson 3, pages 22–25" />
+          </div>
+
+          <div class="field">
+            <label for="materialsInput">Materials needed today</label>
+            <input id="materialsInput" type="text" placeholder="Example: Chromebook, notebook, pencil" />
+          </div>
+
+          <div class="field full">
+            <label for="turnInInput">Turn-in information</label>
+            <textarea id="turnInInput" placeholder="Example: Exit tickets go in the purple tray. Homework is submitted in Google Classroom."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="thisWeekInput">Due this week</label>
+            <textarea id="thisWeekInput" placeholder="Example: Friday - Topic 1 Quiz"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="nextWeekInput">Due next week</label>
+            <textarea id="nextWeekInput" placeholder="Example: Tuesday - Lesson 5 Practice"></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="bathroomInput">Bathroom rule</label>
+            <textarea id="bathroomInput" placeholder="Enter your classroom bathroom procedure."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="pencilInput">Pencil information</label>
+            <input id="pencilInput" type="text" placeholder="Example: Borrow one from the pencil station." />
+          </div>
+
+          <div class="field">
+            <label for="tutoringInput">Tutoring schedule</label>
+            <input id="tutoringInput" type="text" placeholder="Example: Tuesdays and Thursdays, 4:15–5:00 PM" />
+          </div>
+
+          <div class="field">
+            <label for="emailInput">Ms. Rubio's email</label>
+            <input id="emailInput" type="text" placeholder="Enter your school email" />
+          </div>
+
+          <div class="field">
+            <label for="reminderInput">Today's reminder</label>
+            <input id="reminderInput" type="text" placeholder="Example: Bring your Chromebook charged." />
           </div>
 
         </div>
 
-      </section>
+        <button id="saveButton" class="save-button">
+          Save Rubi's Info
+        </button>
 
-
-      <div class="info-grid">
-
-        <section class="info-card">
-
-          <h3>📚 Today at a Glance</h3>
-
-          <ul>
-            <li>Warm-Up</li>
-            <li>Notes / Lesson</li>
-            <li>Practice</li>
-            <li>Exit Ticket</li>
-          </ul>
-
-        </section>
-
-
-        <section class="info-card">
-
-          <h3>⭐ Reminders</h3>
-
-          <ul>
-            <li>Be prepared.</li>
-            <li>Stay respectful.</li>
-            <li>Stay on task.</li>
-            <li>Ask Rubi first!</li>
-          </ul>
-
-        </section>
-
-
-        <section class="info-card">
-
-          <h3>💜 Still Need Help?</h3>
-
-          <p>
-            If Rubi doesn't know the answer, come see Ms. Rubio.
-          </p>
-
-          <p style="margin-top:12px; font-weight:bold;">
-            Room B217
-          </p>
-
-        </section>
+        <div id="saveMessage"></div>
 
       </div>
 
+    </section>
 
-      <div class="reminder">
-        💡 <strong>Remember:</strong>
-        Try Rubi first! I'm here to help so you can keep learning. 💜
-      </div>
-
-
-      <footer>
-        B217 • Learn Today, Lead Tomorrow 💛
-      </footer>
-
-    </main>
+    <footer>
+      B217 • Learn Today, Lead Tomorrow 💛
+    </footer>
 
   </div>
 
-
   <script>
 
-    /*
-    ===========================================
-      RUBI'S CLASSROOM INFORMATION
-      EDIT THESE ANSWERS WHEN NEEDED
-    ===========================================
-    */
-
-    const classroomInfo = {
-
-      materials:
-        "Today you need your Chromebook, math notebook, and a pencil.",
-
-      bathroom:
-        "Please follow Ms. Rubio's bathroom procedure. If instruction is happening, wait until independent work time unless it is an emergency.",
-
-      turnIn:
-        "Check the directions for your assignment. If you aren't sure where it goes, Rubi doesn't have enough information yet — ask Ms. Rubio.",
-
-      thisWeek:
-        "There are currently no assignments entered for this week.",
-
-      nextWeek:
-        "There are currently no assignments entered for next week.",
-
-      page:
-        "Today's page has not been entered yet.",
-
-      pencil:
-        "Yes! Check the classroom pencil station for a pencil.",
-
-      tutoring:
-        "Tutoring information has not been entered yet.",
-
-      email:
-        "Ms. Rubio's email has not been entered yet."
-
+    const defaultInfo = {
+      lesson: "",
+      materials: "",
+      turnIn: "",
+      thisWeek: "",
+      nextWeek: "",
+      bathroom: "",
+      pencil: "",
+      tutoring: "",
+      email: "",
+      reminder: "Ask Rubi first!"
     };
 
+    let classroomInfo =
+      JSON.parse(localStorage.getItem("rubiClassroomInfo")) || defaultInfo;
 
-    /*
-    ===========================================
-       RUBI QUESTION MATCHING
-    ===========================================
-    */
+    const studentModeButton = document.getElementById("studentModeButton");
+    const teacherModeButton = document.getElementById("teacherModeButton");
+
+    const studentPanel = document.getElementById("studentPanel");
+    const teacherPanel = document.getElementById("teacherPanel");
+
+    const lessonInput = document.getElementById("lessonInput");
+    const materialsInput = document.getElementById("materialsInput");
+    const turnInInput = document.getElementById("turnInInput");
+    const thisWeekInput = document.getElementById("thisWeekInput");
+    const nextWeekInput = document.getElementById("nextWeekInput");
+    const bathroomInput = document.getElementById("bathroomInput");
+    const pencilInput = document.getElementById("pencilInput");
+    const tutoringInput = document.getElementById("tutoringInput");
+    const emailInput = document.getElementById("emailInput");
+    const reminderInput = document.getElementById("reminderInput");
+
+    const saveButton = document.getElementById("saveButton");
+    const saveMessage = document.getElementById("saveMessage");
+
+    const questionInput = document.getElementById("questionInput");
+    const askButton = document.getElementById("askButton");
+    const answer = document.getElementById("answer");
+
+    const todayLessonDisplay = document.getElementById("todayLessonDisplay");
+    const materialsDisplay = document.getElementById("materialsDisplay");
+    const reminderDisplay = document.getElementById("reminderDisplay");
+
+    function loadTeacherFields() {
+      lessonInput.value = classroomInfo.lesson || "";
+      materialsInput.value = classroomInfo.materials || "";
+      turnInInput.value = classroomInfo.turnIn || "";
+      thisWeekInput.value = classroomInfo.thisWeek || "";
+      nextWeekInput.value = classroomInfo.nextWeek || "";
+      bathroomInput.value = classroomInfo.bathroom || "";
+      pencilInput.value = classroomInfo.pencil || "";
+      tutoringInput.value = classroomInfo.tutoring || "";
+      emailInput.value = classroomInfo.email || "";
+      reminderInput.value = classroomInfo.reminder || "";
+    }
+
+    function updateStudentDisplay() {
+      todayLessonDisplay.textContent =
+        classroomInfo.lesson || "Today's lesson has not been entered yet.";
+
+      materialsDisplay.textContent =
+        classroomInfo.materials || "Today's materials have not been entered yet.";
+
+      reminderDisplay.textContent =
+        classroomInfo.reminder || "Ask Rubi first!";
+    }
+
+    function switchToStudentMode() {
+      studentPanel.classList.add("active");
+      teacherPanel.classList.remove("active");
+
+      studentModeButton.classList.add("active");
+      teacherModeButton.classList.remove("active");
+
+      updateStudentDisplay();
+    }
+
+    function switchToTeacherMode() {
+      teacherPanel.classList.add("active");
+      studentPanel.classList.remove("active");
+
+      teacherModeButton.classList.add("active");
+      studentModeButton.classList.remove("active");
+
+      loadTeacherFields();
+    }
+
+    studentModeButton.addEventListener("click", switchToStudentMode);
+    teacherModeButton.addEventListener("click", switchToTeacherMode);
+
+    saveButton.addEventListener("click", function () {
+
+      classroomInfo = {
+        lesson: lessonInput.value.trim(),
+        materials: materialsInput.value.trim(),
+        turnIn: turnInInput.value.trim(),
+        thisWeek: thisWeekInput.value.trim(),
+        nextWeek: nextWeekInput.value.trim(),
+        bathroom: bathroomInput.value.trim(),
+        pencil: pencilInput.value.trim(),
+        tutoring: tutoringInput.value.trim(),
+        email: emailInput.value.trim(),
+        reminder: reminderInput.value.trim()
+      };
+
+      localStorage.setItem(
+        "rubiClassroomInfo",
+        JSON.stringify(classroomInfo)
+      );
+
+      saveMessage.textContent =
+        "Saved! 💜 Rubi's information has been updated.";
+
+      updateStudentDisplay();
+
+      setTimeout(function () {
+        saveMessage.textContent = "";
+      }, 3500);
+
+    });
 
     function getAnswer(question) {
 
       const q = question.toLowerCase().trim();
 
-
       if (
         q.includes("page") ||
-        q.includes("what lesson") ||
+        q.includes("lesson") ||
         q.includes("where are we")
       ) {
-        return classroomInfo.page;
+        return classroomInfo.lesson ||
+          "Today's lesson or page has not been entered yet.";
       }
-
 
       if (
         q.includes("need today") ||
-        q.includes("materials") ||
-        q.includes("what do i need") ||
-        q.includes("supplies")
+        q.includes("material") ||
+        q.includes("supplies") ||
+        q.includes("what do we need")
       ) {
-        return classroomInfo.materials;
+        return classroomInfo.materials ||
+          "Today's materials have not been entered yet.";
       }
-
 
       if (
         q.includes("bathroom") ||
         q.includes("restroom") ||
-        q.includes("go pee")
+        q.includes("pee")
       ) {
-        return classroomInfo.bathroom;
+        return classroomInfo.bathroom ||
+          "The bathroom procedure has not been entered yet. Please ask Ms. Rubio.";
       }
-
 
       if (
         q.includes("turn") ||
         q.includes("submit") ||
         q.includes("hand in")
       ) {
-        return classroomInfo.turnIn;
+        return classroomInfo.turnIn ||
+          "Turn-in information has not been entered yet.";
       }
-
 
       if (
-        q.includes("next week") ||
-        q.includes("due next")
+        q.includes("next week")
       ) {
-        return classroomInfo.nextWeek;
+        return classroomInfo.nextWeek ||
+          "Nothing has been entered for next week yet.";
       }
-
 
       if (
         q.includes("this week") ||
-        q.includes("due this") ||
         q.includes("what's due") ||
         q.includes("whats due")
       ) {
-        return classroomInfo.thisWeek;
+        return classroomInfo.thisWeek ||
+          "Nothing has been entered for this week yet.";
       }
-
 
       if (
-        q.includes("pencil") ||
-        q.includes("writing utensil")
+        q.includes("pencil")
       ) {
-        return classroomInfo.pencil;
+        return classroomInfo.pencil ||
+          "Pencil information has not been entered yet.";
       }
-
 
       if (
         q.includes("tutoring") ||
         q.includes("tutorial") ||
         q.includes("extra help")
       ) {
-        return classroomInfo.tutoring;
+        return classroomInfo.tutoring ||
+          "Tutoring information has not been entered yet.";
       }
-
 
       if (
         q.includes("email") ||
         q.includes("contact ms") ||
-        q.includes("contact you")
+        q.includes("contact rubio")
       ) {
-        return classroomInfo.email;
+        return classroomInfo.email ||
+          "Ms. Rubio's email has not been entered yet.";
       }
-
 
       return "Hmm... 🤔 I don't have that information. Please ask Ms. Rubio.";
 
     }
 
-
-    /*
-    ===========================================
-         STUDENT INTERACTIONS
-    ===========================================
-    */
-
-    const questionInput =
-      document.getElementById("questionInput");
-
-    const answerBox =
-      document.getElementById("answer");
-
-    const askButton =
-      document.getElementById("askButton");
-
-
     function askRubi(question) {
 
       if (!question.trim()) {
-
-        answerBox.innerHTML =
-          "Type a question first! 💜";
-
+        answer.textContent = "Type a question first! 💜";
         return;
       }
 
-      answerBox.innerHTML =
-        getAnswer(question);
-
+      answer.textContent = getAnswer(question);
     }
 
-
     askButton.addEventListener("click", function () {
-
       askRubi(questionInput.value);
-
     });
-
 
     questionInput.addEventListener("keydown", function (event) {
-
       if (event.key === "Enter") {
-
         askRubi(questionInput.value);
-
       }
-
     });
 
-
     document.querySelectorAll(".quick-question")
-      .forEach(function (button) {
+      .forEach(function(button) {
 
-        button.addEventListener("click", function () {
+        button.addEventListener("click", function() {
 
-          const question =
-            button.dataset.question;
+          const question = button.dataset.question;
 
-          questionInput.value =
-            question;
+          questionInput.value = question;
 
           askRubi(question);
 
-          document
-            .querySelector(".answer-card")
+          document.querySelector(".answer-card")
             .scrollIntoView({
               behavior: "smooth",
               block: "center"
@@ -774,6 +851,9 @@
         });
 
       });
+
+    loadTeacherFields();
+    updateStudentDisplay();
 
   </script>
 
