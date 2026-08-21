@@ -1154,14 +1154,13 @@
         }
 
         catch(error) {
+console.error(error);
 
-          console.error(error);
+loginMessage.textContent =
+  "Login error: " + error.code;
 
-          loginMessage.textContent =
-            "That email or password didn't work.";
-
-          loginMessage.className =
-            "error";
+loginMessage.className =
+  "error";
         }
 
       }
